@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <title>Crear cuenta</title>
+    <link rel="stylesheet" href="{% static 'inicioSesion.css' %}">
+</head>
+<body class="container">
+    <main>
+        <header class="info">
+            <h1>Crea tu cuenta</h1>
+            <p>Comienza a tomar el control de tus finanzas hoy mismo.</p>
+        </header>
+
+        <div>
+            <form method="post" action="{% url 'registrarse' %}">
+                {% csrf_token %}
+                {% if error %}
+                    <div class="error" style="color: red; margin-bottom: 8px;">{{ error }}</div>
+                {% endif %}
+                <label>Nombre completo</label>
+                <input type="text" name="fullname" placeholder="Juan Pérez" required value="{{ values.fullname }}">
+                <label>Correo electrónico</label>
+                <input type="email" name="email" placeholder="juan.perez@ejemplo.com" required value="{{ values.email }}">
+                <label>Contraseña</label>
+                <input type="password" name="password" placeholder="Ingresa tu contraseña" required>
+                <label>Confirmar contraseña</label>
+                <input type="password" name="password2" placeholder="Confirma tu contraseña" required>
+                <div>
+                    <button type="submit">Registrarse</button>
+                </div>
+            </form>
+
+            <div style="margin-top:12px;">
+                ¿Ya tienes una cuenta? <a href="{% url 'inicioSesion' %}">Inicia sesión aquí</a>
+            </div>
+        </div>
+    </main>
+<script>
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) { location.reload(); }
+});
+</script>
+</body>
+</html>

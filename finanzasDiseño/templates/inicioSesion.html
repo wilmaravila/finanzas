@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <title>Inicio Sesión</title>
+    <link rel="stylesheet" href="{% static 'inicioSesion.css' %}">  <!-- corregido: inicioSesion.css -->
+</head>
+<body class="container">
+    <main>
+        <header class="info">
+            <h1>Bienvenido</h1>
+            <p>Inicia sesión o regístrate para gestionar tus finanzas</p>
+        </header>
+
+        <div>
+            <form action="" method="post" class="info-form">
+                {% csrf_token %}
+                {% if error %}
+                    <div class="error" style="color: red; margin-bottom: 8px;">{{ error }}</div>
+                {% endif %}
+                <label>Correo electrónico o nombre de usuario</label>
+                <input type="text" name="username" placeholder="usuario" required>
+                <label>Contraseña</label>
+                <input type="password" name="password" placeholder="contraseña" required>
+                <div>
+                    <button type="submit">Iniciar sesión</button>
+                    <a href="{% url 'registrarse' %}"><button type="button">Registrarse</button></a>
+                </div>
+            </form>
+          
+        </div>
+    </main>
+</body>
+</html>

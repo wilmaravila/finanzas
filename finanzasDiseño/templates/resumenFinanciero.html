@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Resumen Financiero</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="{% static 'resumenFinanciero.css' %}">
+</head>
+<body class="p-4">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>Resumen Financiero</h1>
+      <div class="d-flex justify-content-end">
+        <a class="btn btn-success me-2" href="{% url 'agregar_ingreso' %}">+ Añadir Ingreso</a>
+        <a class="btn btn-danger" href="{% url 'agregar_gasto' %}">+ Añadir Gasto</a>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <div class="card p-3">
+          <small>Ingresos Totales</small>
+          <h4>${{ total_ingresos }}</h4>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3">
+          <small>Gastos Totales</small>
+          <h4>${{ total_gastos }}</h4>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3 bg-success text-white">
+          <small>Balance Neto</small>
+          <h4>${{ balance }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-8">
+        <div class="card p-3">
+          <h6>Flujo de Dinero (últimos 6 meses)</h6>
+          {% if bar_chart_uri %}
+            <img src="{{ bar_chart_uri }}" alt="Flujo de dinero" style="max-width:100%; height:auto;">
+          {% else %}
+            <p>No hay datos para mostrar.</p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h6>Distribución de Gastos</h6>
+          {% if pie_chart_uri %}
+            <img src="{{ pie_chart_uri }}" alt="Gastos por categoría" style="max-width:100%; height:auto;">
+          {% else %}
+            <div>No hay datos para graficar</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-3 p-3">
+      <h6>Principales Categorías de Gasto</h6>
+      <table class="table">
+        <thead><tr><th>Categoría</th><th>Monto</th></tr></thead>
+        <tbody>
+          {% for c in top_cats %}
+          <tr>
+            <td>{{ c.category__name|default:"Sin categoría" }}</td>
+            <td>${{ c.total }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="2">No hay datos</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+</body>
+</html>
