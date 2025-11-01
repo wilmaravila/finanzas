@@ -1,8 +1,9 @@
 from django import forms
 from django.db.models import Q
-from .models import Transaction, Category
+from .models import  Calificaciones, Transaction, Category
 from django.core.exceptions import ValidationError
 from datetime import date
+from django.db import models
 
 class TransactionForm(forms.ModelForm):
     class Meta:
@@ -42,3 +43,16 @@ class CategoryForm(forms.ModelForm):
             "name": forms.TextInput(attrs={"class": "form-control"}),
             "kind": forms.Select(attrs={"class": "form-select"}),
         }
+
+
+class CalificacionForm(forms.ModelForm):
+    class Meta:
+        model = Calificaciones
+        fields = ['nombre', 'comentario', 'puntuacion']
+        labels = {
+            'nombre': 'Tu nombre',
+            'comentario': 'Comentario (opcional)',
+            'puntuacion': 'Calificación (1 a 10)',
+        }
+
+

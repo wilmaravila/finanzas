@@ -9,5 +9,5 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ("title", "amount", "type", "user", "date", "category")
+    list_display = ("title", "amount", "type", "user", "date", )
     list_filter = ("type", "date", "category")

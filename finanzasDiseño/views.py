@@ -6,8 +6,8 @@ from django.db.models import Sum, Value, DecimalField, Q
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 import json
-from .models import Transaction, Category
-from .forms import TransactionForm, CategoryForm
+from .models import Calificaciones, Transaction, Category
+from .forms import CalificacionForm, TransactionForm, CategoryForm
 from . import models
 from datetime import date
 import calendar
@@ -61,6 +61,7 @@ def registrarse(request):
             user = UserModel.objects.create_user(username=email, email=email, password=password,
                                             first_name=first_name, last_name=last_name)
             user.save()
+            print(user)
             auth.login(request, user)
             return redirect("resumenFinanciero")
 
@@ -188,11 +189,7 @@ def agregar_gasto(request):
         form = TransactionForm(user=request.user, kind='EX')
     return render(request, "agregar_gasto.html", {"form": form})
 
-@login_required(login_url='/')
-def categorias_list(request):
-    # muestra categorías del usuario + globales
-    cats = Category.objects.filter(models.Q(user=request.user) | models.Q(user__isnull=True))
-    return render(request, "categorias_list.html", {"categories": cats})
+
 
 @login_required(login_url='/')
 def agregar_categoria(request):
@@ -202,11 +199,40 @@ def agregar_categoria(request):
             c = form.save(commit=False)
             c.user = request.user  # si quieres que sea global, cambia a None
             c.save()
-            return redirect("categorias_list")
+            return render(request, "resumenFinanciero.html")
     else:
         form = CategoryForm()
-    return render(request, "agregar_categoria.html", {"form": form})
+    return render(request, "nueva_categoria.html", {"form": form})
+
+
+    
+
+def registrar_calificacion(request):
+    if request.method == 'POST':
+        form = CalificacionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'exito.html')  # Página de éxito
+    else:
+        form = CalificacionForm()
+    
+    return render(request, 'crear_calificaciones.html', {'form': form})
+
+
+def lista_calificaciones(request):
+    calificaciones = Calificaciones.objects.all()  # 👈 obtiene todos los registros
+    if calificaciones:
+        return render(request, 'calificaciones.html', {'calificaciones': calificaciones})
+    else:
+        return render(request, 'calificaciones.html', {'calificaciones': 0})
+
+
+
+
+
+
 
 def cerrar_sesion(request):
     auth.logout(request)
     return redirect("inicioSesion")
+

@@ -7,6 +7,12 @@ urlpatterns = [
     path("registrarse/", views.registrarse, name="registrarse"),
     path("gasto/agregar/", views.agregar_gasto, name="agregar_gasto"),
     path("ingreso/agregar/", views.agregar_ingreso, name="agregar_ingreso"),
-    path("categorias/", views.categorias_list, name="categorias_list"),
-    path("categorias/agregar/", views.agregar_categoria, name="agregar_categoria"),
+    
+    path("agrrgar_categoria/", views.agregar_categoria, name="agregar_categoria"),
+
+    path('calificar/', views.registrar_calificacion, name="calificar"),
+    path('verCalificaciones/',views.lista_calificaciones, name="calificaciones")
+
+    
+    
 ]

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Creacion nueva categoria</title>
+</head>
+<body>
+  <h1>ingresa la categia que desea ingresar</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+  
+    <button type="submit">Enviar</button>
+  </form>
+
+</body>
+</html>

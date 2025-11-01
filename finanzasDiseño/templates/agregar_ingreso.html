@@ -9,6 +9,7 @@
 </head>
 <body class="p-4">
   <div class="container">
+    <a href="{% url 'agregar_categoria' %}">Agrega una categoria nueva</a>
     <h3>Registrar Nuevo Ingreso</h3>
     <form method="post">
       {% csrf_token %}
